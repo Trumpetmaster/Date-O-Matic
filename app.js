@@ -20,7 +20,6 @@ var people = collections
              
 var peopleCtrl = controller.makePeopleCtrl(people, model, prmpt);
 var quizCtrl = controller.makeQuizCtrl(prmpt);
-var quiz = model.makeQuiz(questions.values);
 
 var profiles = [];
 
@@ -37,7 +36,7 @@ function createProfile(person, quiz) {
 
 function promptUser() {
     peopleCtrl.add(function(person) {
-        quizCtrl.take(quiz, function (quiz) {
+        quizCtrl.take(model.makeQuiz(questions.values.concat()), function (quiz) {
             createProfile(person, quiz);
         });
     });
@@ -45,12 +44,14 @@ function promptUser() {
 
 function compare() {
     var points = 0;
-    var quizOneQuestions = profiles[0].quiz.questions;
-    var quizTwoQuestions = profiles[1].quiz.questions;
-    for (var i = 0; i < quizOneQuestions.length; i++) {
-        if (quizOneQuestions[i] === quizTwoQuestions[i]) {
+    var quizOneAnswers = profiles[0].quiz.answers;
+    var quizTwoAnswers = profiles[1].quiz.answers;
+    for (var i = 0; i < profiles[0].quiz.questions.length; i++) {
+        var o = quizOneAnswers[i];
+        var t = quizTwoAnswers[i];
+        if (o === t) {
             points++;
         }
     }
-    console.log('Match rate: %d out of %d', points, quiz.questions.length);
+    console.log('Match rate: %d out of %d', points, profiles[0].quiz.questions.length);
 }

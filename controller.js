@@ -42,7 +42,7 @@ function makeQuizCtrl(prompt) {
             for (var i = 0; i < questions.length; i++) {
                 properties.push({
                     name: i.toString(), 
-                    validator: /^[yn]/,
+                    validator: /^[yn]{1}$/,
                     message: questions[i].question + ': (y/n)',
                     required: true});
             }
@@ -50,7 +50,8 @@ function makeQuizCtrl(prompt) {
             prompt.get(properties, function (err, result) {
                     if (err) return onErr(err);
                     for (var key in result) {
-                      console.log(key + " = " + result[key]);
+                        quiz.answers[key] = (result[key] === "y") ? true : false;
+                        //quiz.questions[key].setAnswer((result[key] === "y") ? true : false);
                     }
                     callback(quiz);
             });

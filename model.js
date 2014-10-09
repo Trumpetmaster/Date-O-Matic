@@ -32,6 +32,7 @@ module.exports.makeProfile = makeProfile;
 
 function makeQuiz(questions) {
     var _quiz = {
+        answers: {},
         questions: questions,
     };
     return _quiz;
@@ -39,21 +40,9 @@ function makeQuiz(questions) {
 module.exports.makeQuiz = makeQuiz;
 
 function makeQuestion(question) {
-    // declare a private variable within the factory closure //
-    var _answer = false;
-    
     var _question = {
         question:   question,
-        
-        setAnswer: function (answer) {
-            if (typeof answer === 'boolean') {
-                _answer = answer;
-            }
-        },
-        getAnswer: function () {
-            return _answer;
-        }
-    }
+    };
     return _question;
 }
 module.exports.makeQuestion = makeQuestion;
