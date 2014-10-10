@@ -11,10 +11,10 @@ We load our questions and responses, we prompt each user for their names, then q
 
 Our app's logic resides in our controller module. Our players are mananged by the people controller, and our quizzes are managed by their own controller. Controllers are specialized objects designed to oversee the behavior of the objects they manange. One powerful feature of this design pattern is that we can change the behavior of objects by swapping controllers, instead of changing the objects themselves. 
 
+**TODO**
 
 The only thing missing is to see if our possible lovebirds are indeed a match. We need to finish our app by writing a comparison function that will evaluate the compatibility of our two players:
 
-**TODO** 
 
 ```javascript
 // TODO : Create our comparison function //
