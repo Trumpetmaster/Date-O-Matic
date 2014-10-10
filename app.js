@@ -3,6 +3,7 @@
 "use-strict";
 
 const 
+    util = require("util"),
     model = require("./model"),
     controller = require("./controller"),
     collections = require("./util/collections"),
@@ -28,23 +29,22 @@ var quizCtrl = controller.makeQuizCtrl(prmpt);
 
 var profiles = [];
 
-promptUser();
+promptUser(profiles.length+1);
 
 function createProfile(person, quiz) {
-    var lines = process.stdout.getWindowSize()[1];
-    for(var i = 0; i < lines; i++) {
-        console.log('\r\n');
-    }
+    console.log('------------------------------------------------');
+    process.stdout.write('\033c');
     profiles.push(model.makeProfile(person, quiz));
     if (profiles.length === 2) {
+        console.log('------------------------------------------------');
         compare();
         return;
     }
-    promptUser();
+    promptUser(profiles.length+1);
 }
 
-function promptUser() {
-    peopleCtrl.add(function(person) {
+function promptUser(index) {
+    peopleCtrl.add(util.format("Candidate %d, enter your deets:", index), function(person) {
         quizCtrl.take(model.makeQuiz(questions.values.concat()), function (quiz) {
             createProfile(person, quiz);
         });
@@ -65,5 +65,5 @@ function compare() {
             points++;
         }
     }
-    console.log("Here is our evaluation: %s", responses.values[points-1].response);
+    console.log("Here is our evaluation: %s", responses.values[points].response);
 }

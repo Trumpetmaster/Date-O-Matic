@@ -14,8 +14,8 @@ function makeAppCtrl(peopleCtrl, quizCtrl) {
 function makePeopleCtrl(people, model, prompt) {
     var _peopleCtrl = {
         people: people,
-        add: function (callback) {
-            console.log('Enter your deets:');
+        add: function (message, callback) {
+            console.log(message);
             prompt.get(['firstname', 
                         'lastname'], 
                         function (err, input) {
