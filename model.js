@@ -49,4 +49,16 @@ module.exports.makeQuestion = makeQuestion;
 
 module.exports.makeQuestionFromJSON = function (data) {
     return makeQuestion(data);
+};
+
+function makeResponse(response) {
+    var _response = {
+        response:   response,
+    };
+    return _response;
 }
+module.exports.makeResponse = makeResponse;
+
+module.exports.makeResponseFromJSON = function (data) {
+    return makeResponse(data);
+};

@@ -13,7 +13,12 @@ var questions = collections
                     .makeList('questions.json', model.makeQuestionFromJSON)
                     .loadSync();
 
-// Load our people data //
+// Load our reponses data //
+var responses = collections
+                    .makeList("responses.json", model.makeResponseFromJSON)
+                    .loadSync();
+                    
+// Load our people data (we could be saving profiles - for now, w're not) //
 var people = collections
              .makeList('people.json', model.makePersonFromJSON)
              .loadSync();
@@ -26,6 +31,10 @@ var profiles = [];
 promptUser();
 
 function createProfile(person, quiz) {
+    var lines = process.stdout.getWindowSize()[1];
+    for(var i = 0; i < lines; i++) {
+        console.log('\r\n');
+    }
     profiles.push(model.makeProfile(person, quiz));
     if (profiles.length === 2) {
         compare();
@@ -42,16 +51,19 @@ function promptUser() {
     });
 }
 
+// TODO : Create our comparison function //
 function compare() {
     var points = 0;
-    var quizOneAnswers = profiles[0].quiz.answers;
-    var quizTwoAnswers = profiles[1].quiz.answers;
-    for (var i = 0; i < profiles[0].quiz.questions.length; i++) {
-        var o = quizOneAnswers[i];
-        var t = quizTwoAnswers[i];
+    var answersOne = profiles[0].quiz.answers;
+    var answersTwo = profiles[1].quiz.answers;
+    
+    var length = questions.values.length;
+    for (var i = 0; i < length; i++) {
+        var o = answersOne[i];
+        var t = answersTwo[i];
         if (o === t) {
             points++;
         }
     }
-    console.log('Match rate: %d out of %d', points, profiles[0].quiz.questions.length);
+    console.log("Here is our evaluation: %s", responses.values[points-1].response);
 }
